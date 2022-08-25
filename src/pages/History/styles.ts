@@ -6,6 +6,7 @@ export const HistoryContainer = styled.main`
 
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   h1 {
     font-size: 1.5rem;
