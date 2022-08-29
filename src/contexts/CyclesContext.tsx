@@ -39,24 +39,12 @@ interface CyclesContextProviderProps {
 export function CyclesContextProvider({
   children,
 }: CyclesContextProviderProps) {
-  const [cyclesState, dispatch] = useReducer(
-    cyclesReducer,
-    {
-      cycles: [],
-      activeCycleId: null,
-    },
-    () => {
-      const storedStateAsJSON = localStorage.getItem(
-        '@ignite-pomodoro:cycles-state-1.0.0',
-      )
+  const [cyclesState, dispatch] = useReducer(cyclesReducer, {
+    cycles: [],
+    activeCycleId: null,
+  })
 
-      if (storedStateAsJSON) {
-        return JSON.parse(storedStateAsJSON)
-      }
-    },
-  )
-
-  const { cycles, activeCycleId } = cyclesState || {}
+  const { cycles, activeCycleId } = cyclesState
   const activeCycle = cycles?.find((cycle) => cycle.id === activeCycleId)
 
   const [amountSecondsPassed, setAmountSeccondsPassed] = useState(() => {
@@ -66,14 +54,6 @@ export function CyclesContextProvider({
 
     return 0
   })
-
-  useEffect(() => {
-    const stateJSON = JSON.stringify(cyclesState)
-
-    if (cyclesState) {
-      localStorage.setItem('@ignite-pomodoro:cycles-state-1.0.0', stateJSON)
-    }
-  }, [cyclesState])
 
   function setSecondsPassed(seconds: number) {
     setAmountSeccondsPassed(seconds)
