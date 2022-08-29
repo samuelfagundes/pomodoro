@@ -56,8 +56,8 @@ export function CyclesContextProvider({
     },
   )
 
-  const { cycles, activeCycleId } = cyclesState
-  const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
+  const { cycles, activeCycleId } = cyclesState || {}
+  const activeCycle = cycles?.find((cycle) => cycle.id === activeCycleId)
 
   const [amountSecondsPassed, setAmountSeccondsPassed] = useState(() => {
     if (activeCycle) {
@@ -70,7 +70,9 @@ export function CyclesContextProvider({
   useEffect(() => {
     const stateJSON = JSON.stringify(cyclesState)
 
-    localStorage.setItem('@ignite-pomodoro:cycles-state-1.0.0', stateJSON)
+    if (cyclesState) {
+      localStorage.setItem('@ignite-pomodoro:cycles-state-1.0.0', stateJSON)
+    }
   }, [cyclesState])
 
   function setSecondsPassed(seconds: number) {
